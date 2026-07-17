@@ -1,0 +1,145 @@
+/* ─── Desktop Sidebar ─────────────────────────── */
+.sidebar {
+  width: 250px;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+  /* keep it fixed-height on desktop */
+  min-height: 100vh;
+  flex-shrink: 0;
+}
+
+.logo {
+  padding: 1.5rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+}
+
+.navLink {
+  padding: 0.75rem 1.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.2s ease;
+}
+
+.navLink:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navLink.active {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-left: 4px solid var(--accent);
+}
+
+.footer {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logoutBtn {
+  width: 100%;
+  padding: 0.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: left;
+  transition: color 0.2s ease;
+}
+
+.logoutBtn:hover {
+  color: #fff;
+}
+
+/* ─── Mobile Top Bar ──────────────────────────── */
+.mobileBar {
+  display: none;
+}
+
+.mobileLogo {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--primary-foreground);
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--primary-foreground);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* animated X state */
+.barTop_open  { transform: translateY(7px) rotate(45deg); }
+.barMid_open  { opacity: 0; }
+.barBot_open  { transform: translateY(-7px) rotate(-45deg); }
+.barTop       { transform: none; }
+.barMid       { opacity: 1; }
+.barBot       { transform: none; }
+
+/* ─── Overlay ─────────────────────────────────── */
+.overlay {
+  display: none;
+}
+
+/* ─── Mobile Breakpoint ───────────────────────── */
+@media (max-width: 768px) {
+  /* hide static sidebar */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    height: 100%;
+    width: 250px;
+    z-index: 200;
+    transition: left 0.3s ease;
+    min-height: unset;
+  }
+
+  .sidebarOpen {
+    left: 0;
+  }
+
+  /* show top bar */
+  .mobileBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--primary);
+    padding: 0.75rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+  }
+
+  /* dim overlay */
+  .overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 150;
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "info": {
+    "name": "Car Cell API",
+    "description": "Postman Collection for Car Cell Next.js App.\n\n**Authentication Note:** All endpoints require an active NextAuth session. To test these endpoints, you will need to:\n1. Log into your app via a browser.\n2. Open browser developer tools -> Application -> Cookies.\n3. Copy the value of the `next-auth.session-token` cookie (or `__Secure-next-auth.session-token` if in production).\n4. In Postman, add a Cookie header or configure the Cookies section with that token.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Sales",
+      "item": [
+        {
+          "name": "Get All Sales",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/sales?page=1&limit=25",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "sales"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "25"},
+                {"key": "search", "value": "", "disabled": true},
+                {"key": "paymentStatus", "value": "PAID", "disabled": true}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Sale",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/sales",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "sales"]
+            },
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer\": {\n    \"fullName\": \"John Doe\",\n    \"nicNumber\": \"12345-6789012-3\",\n    \"phone\": \"+923001234567\",\n    \"email\": \"john@example.com\",\n    \"address\": \"123 Main St\",\n    \"guarantorName\": \"Jane Doe\",\n    \"guarantorContact\": \"+923007654321\"\n  },\n  \"car\": {\n    \"make\": \"Toyota\",\n    \"model\": \"Corolla\",\n    \"year\": 2020,\n    \"vin\": \"JT1234567890\",\n    \"registrationNumber\": \"ABC-123\",\n    \"color\": \"White\",\n    \"mileage\": 50000,\n    \"notes\": \"Excellent condition\"\n  },\n  \"sale\": {\n    \"saleDate\": \"2023-10-01T12:00:00Z\",\n    \"sellingPrice\": 5000000,\n    \"paymentType\": \"INSTALLMENT\",\n    \"notes\": \"Standard terms apply\"\n  },\n  \"installmentPlan\": {\n    \"downPayment\": 1000000,\n    \"installmentAmount\": 100000,\n    \"frequency\": \"MONTHLY\",\n    \"numberOfInstallments\": 40,\n    \"nextDueDate\": \"2023-11-01T12:00:00Z\"\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Sale by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/sales/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "sales", ":id"],
+              "variable": [{"key": "id", "value": "SALE_ID_HERE"}]
+            }
+          }
+        },
+        {
+          "name": "Delete Sale",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/sales/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "sales", ":id"],
+              "variable": [{"key": "id", "value": "SALE_ID_HERE"}]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "Get Payments for Sale",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/sales/:id/payments",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "sales", ":id", "payments"],
+              "variable": [{"key": "id", "value": "SALE_ID_HERE"}]
+            }
+          }
+        },
+        {
+          "name": "Record Payment",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/sales/:id/payments",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "sales", ":id", "payments"],
+              "variable": [{"key": "id", "value": "SALE_ID_HERE"}]
+            },
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 50000,\n  \"paymentDate\": \"2023-11-01T12:00:00Z\",\n  \"notes\": \"Monthly installment\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Documents",
+      "item": [
+        {
+          "name": "Get Documents for Sale",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/sales/:id/documents",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "sales", ":id", "documents"],
+              "variable": [{"key": "id", "value": "SALE_ID_HERE"}]
+            }
+          }
+        },
+        {
+          "name": "Upload Document",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/sales/:id/documents",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "sales", ":id", "documents"],
+              "variable": [{"key": "id", "value": "SALE_ID_HERE"}]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "category",
+                  "value": "AGREEMENT",
+                  "type": "text"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Document",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/documents/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "documents", ":id"],
+              "variable": [{"key": "id", "value": "DOCUMENT_ID_HERE"}]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}

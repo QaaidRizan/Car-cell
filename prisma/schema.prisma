@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum PaymentType {
+  FULL
+  INSTALLMENT
+  FINANCING
+}
+
+enum Frequency {
+  WEEKLY
+  MONTHLY
+  CUSTOM
+}
+
+enum FileType {
+  PDF
+  IMAGE
+}
+
+
+
+model Car {
+  id                 String   @id @default(uuid())
+  make               String
+  model              String
+  year               Int
+  vin                String
+  registrationNumber String
+  color              String?
+  mileage            Int
+  notes              String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  sale               Sale?
+
+  @@index([registrationNumber])
+  @@index([vin])
+}
+
+model Customer {
+  id               String   @id @default(uuid())
+  fullName         String
+  nicNumber        String
+  phone            String
+  email            String?
+  address          String?
+  guarantorName    String?
+  guarantorContact String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  sales            Sale[]
+
+  @@index([fullName])
+}
+
+model Sale {
+  id              String           @id @default(uuid())
+  carId           String           @unique
+  customerId      String
+  saleDate        DateTime
+  sellingPrice    Decimal
+  paymentType     PaymentType
+  notes           String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  car             Car              @relation(fields: [carId], references: [id], onDelete: Cascade)
+  customer        Customer         @relation(fields: [customerId], references: [id])
+  installmentPlan InstallmentPlan?
+  financeDetail   FinanceDetail?
+  payments        Payment[]
+  documents       Document[]
+
+  @@index([saleDate])
+}
+
+model InstallmentPlan {
+  id                   String    @id @default(uuid())
+  saleId               String    @unique
+  downPayment          Decimal
+  installmentAmount    Decimal
+  frequency            Frequency
+  customFrequencyDays  Int?
+  numberOfInstallments Int
+  nextDueDate          DateTime
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  sale                 Sale      @relation(fields: [saleId], references: [id], onDelete: Cascade)
+}
+
+model Payment {
+  id          String   @id @default(uuid())
+  saleId      String
+  amount      Decimal
+  paymentDate DateTime
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  sale        Sale     @relation(fields: [saleId], references: [id], onDelete: Cascade)
+}
+
+model Document {
+  id               String           @id @default(uuid())
+  saleId           String
+  fileUrl          String
+  fileType         FileType
+  originalFileName String
+  uploadedAt       DateTime         @default(now())
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  sale             Sale             @relation(fields: [saleId], references: [id], onDelete: Cascade)
+}
+
+model FinanceDetail {
+  id                   String   @id @default(uuid())
+  saleId               String   @unique
+  financeCompanyName   String?
+  loanAgreementNumber  String?  @unique
+  loanAmount           Decimal?
+  downPayment          Decimal?
+  financeStatus        String?
+  note                 String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  sale                 Sale     @relation(fields: [saleId], references: [id], onDelete: Cascade)
+}

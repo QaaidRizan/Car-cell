@@ -1,0 +1,23 @@
+.appContainer {
+  display: flex;
+  min-height: 100vh;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 2rem;
+  background-color: var(--muted);
+  overflow-y: auto;
+  min-width: 0; /* prevent flex blowout */
+}
+
+@media (max-width: 768px) {
+  .appContainer {
+    flex-direction: column;
+  }
+
+  .mainContent {
+    padding: 1rem;
+    /* sidebar is fixed on mobile, no need to offset */
+  }
+}

@@ -1,0 +1,597 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.deleteBtn {
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.deleteBtn:hover:not(:disabled) {
+  background-color: var(--danger);
+  color: #fff;
+}
+
+.deleteBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+.leftCol, .rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    gap: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .editForm {
+    grid-template-columns: 1fr;
+  }
+
+  /* Make full-width spans work in single column */
+  .editForm > [style*="gridColumn"] {
+    grid-column: unset !important;
+  }
+
+  .historyTable {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .imageGrid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  .folderGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+}
+
+
+.card {
+  background: var(--background);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  font-size: 0.95rem;
+}
+
+.infoGrid label {
+  font-weight: 600;
+  color: var(--muted-foreground);
+  margin-right: 0.5rem;
+}
+
+.paymentSummary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.amount {
+  font-weight: 600;
+}
+
+.outstanding {
+  border-top: 1px dashed var(--border);
+  padding-top: 0.75rem;
+  margin-top: 0.25rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.badge_PAID { background-color: rgba(16, 185, 129, 0.1); color: var(--success); }
+.badge_PARTIALLY_PAID { background-color: rgba(245, 158, 11, 0.1); color: var(--warning); }
+.badge_UNPAID { background-color: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+.installmentInfo {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: var(--muted);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+}
+
+.installmentInfo h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+
+.addPaymentBtn {
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.addPaymentBtn:hover {
+  text-decoration: underline;
+}
+
+.addPaymentForm {
+  background-color: var(--muted);
+  padding: 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.addPaymentForm h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.inputGroup label {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.inputGroup input {
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.formActions button {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.formActions button[type="submit"] {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.formActions button[type="button"] {
+  background-color: transparent;
+  border: 1px solid var(--border);
+}
+
+.historyTable {
+  overflow-x: auto;
+}
+
+.historyTable table {
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.historyTable th {
+  text-align: left;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted-foreground);
+}
+
+.historyTable td {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--muted);
+}
+
+.docSection {
+  margin-bottom: 1.5rem;
+}
+
+.docSection h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: var(--muted-foreground);
+}
+
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.imageItem {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.imageItem img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  display: block;
+}
+
+.pdfList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pdfItem {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: var(--muted);
+  border-radius: var(--radius);
+  transition: background-color 0.2s;
+}
+
+.pdfItem:hover {
+  background-color: #e2e8f0;
+}
+
+.pdfIcon {
+  font-size: 1.25rem;
+  margin-right: 0.75rem;
+}
+
+.pdfName {
+  flex: 1;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.docLabel {
+  font-size: 0.7rem;
+  background-color: rgba(0,0,0,0.6);
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+.pdfItem .docLabel {
+  position: static;
+  background-color: var(--primary);
+}
+
+.empty {
+  color: var(--muted-foreground);
+  font-size: 0.95rem;
+}
+
+/* Edit Mode Styles */
+.editBtn {
+  font-size: 0.85rem;
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--accent);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.editBtn:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.editForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  background-color: var(--muted);
+  padding: 1rem;
+  border-radius: var(--radius);
+}
+
+.editForm textarea {
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+.cancelBtn {
+  background-color: transparent;
+  border: 1px solid var(--border);
+  color: var(--foreground);
+}
+
+.cancelBtn:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+.saveBtn {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+  border: none;
+}
+
+.saveBtn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+/* Documents Editing Styles */
+.editDocsContainer {
+  background-color: var(--muted);
+  padding: 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+}
+
+.helpText {
+  font-size: 0.9rem;
+  color: var(--muted-foreground);
+  margin-bottom: 1rem;
+}
+
+.newDocUploader h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.newDocsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.newDocRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--background);
+  padding: 0.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.newDocName {
+  flex: 1;
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.catSelect {
+  padding: 0.25rem;
+  font-size: 0.85rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.removeNewDocBtn {
+  color: var(--danger);
+  font-weight: bold;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.removeNewDocBtn:hover {
+  opacity: 0.7;
+}
+
+.divider {
+  border: none;
+  border-top: 1px dashed var(--border);
+  margin-top: 1.5rem;
+}
+
+.deleteDocBtn {
+  position: absolute;
+  top: -0.5rem;
+  left: -0.5rem;
+  background-color: var(--danger);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+
+.deleteDocBtn:hover {
+  background-color: darkred;
+}
+
+.pdfItemContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.deleteDocBtnPdf {
+  background-color: var(--danger);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.deleteDocBtnPdf:hover {
+  background-color: darkred;
+}
+
+.folderGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.folderCard {
+  background-color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.folderCard:hover {
+  background-color: var(--border);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.folderIcon {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.folderName {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--foreground);
+}
+
+.viewHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.viewHeader h3 {
+  margin-bottom: 0;
+}
+
+.backBtn {
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.backBtn:hover {
+  background-color: var(--muted);
+}
