@@ -1,45 +1,33 @@
-import { PrismaClient } from '@prisma/client'
-import { Pool } from 'pg'
-import { PrismaPg } from '@prisma/adapter-pg'
+import { PrismaClient } from "@prisma/client";
+import { Pool } from "pg";
+import { PrismaPg } from "@prisma/adapter-pg";
 
-function getTcpUrl(prismaPostgresUrl: string | undefined) {
-  if (!prismaPostgresUrl) return undefined;
-  if (!prismaPostgresUrl.startsWith('prisma+postgres://')) return prismaPostgresUrl;
+const connectionString = process.env.DATABASE_URL;
 
-  try {
-    const url = new URL(prismaPostgresUrl);
-    const apiKey = url.searchParams.get('api_key');
-    if (apiKey) {
-      const decoded = Buffer.from(apiKey, 'base64').toString('utf8');
-      const parsed = JSON.parse(decoded);
-      return parsed.databaseUrl;
-    }
-  } catch (e) {
-    console.warn("Failed to parse Prisma Postgres API key", e);
-  }
-  return prismaPostgresUrl;
+if (!connectionString) {
+  throw new Error("DATABASE_URL is not set");
 }
+
+const pool = new Pool({
+  connectionString,
+});
+
+const adapter = new PrismaPg(pool);
 
 const prismaClientSingleton = () => {
-  const dbUrl = getTcpUrl(process.env.DATABASE_URL);
-
-  if (dbUrl && (dbUrl.startsWith('postgres://') || dbUrl.startsWith('postgresql://'))) {
-    const pool = new Pool({ connectionString: dbUrl });
-    const adapter = new PrismaPg(pool);
-    return new PrismaClient({ adapter });
-  }
-
   return new PrismaClient({
-    accelerateUrl: process.env.DATABASE_URL,
-  })
-}
+    adapter,
+  });
+};
 
 declare global {
-  var prismaGlobal: undefined | ReturnType<typeof prismaClientSingleton>
+  var prismaGlobal: undefined | ReturnType<typeof prismaClientSingleton>;
 }
 
-const prisma = globalThis.prismaGlobal ?? prismaClientSingleton()
+const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
 
-export default prisma
+export default prisma;
 
-if (process.env.NODE_ENV !== 'production') globalThis.prismaGlobal = prisma
+if (process.env.NODE_ENV !== "production") {
+  globalThis.prismaGlobal = prisma;
+}
